@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="./jsx.min.js"></script>
+    <title>jsx</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      const List = ({ list, children }) => {
+        // console.log(children)
+        return list.map(n => jsx`<li style=${{ color: "red" }}>${n}</li>`)
+      }
+
+      const Ul = jsx`<ul>
+          <li>0</li>
+          <${List} list=${[1, 2, 3]}>
+            <div>test</div>
+          </${List}>
+          <li>4</li>
+          <li>
+            <code ref=${c => console.log("code", c.innerHTML)}>test</code>
+          </li>
+        </ul>`
+
+      jsx.render(Ul, document.getElementById("root"))
+
+      const ref = {}
+      const button = jsx`<button className="test" ref=${ref} onClick=${() =>
+        console.log(ref)}>add</button>`
+
+      document.getElementById("root").append(button)
+
+      const paras = jsx`
+        <${jsx.frag}>
+          <p>1</p>
+          <p>2</p>
+          <p>3</p>
+        </${jsx.frag}>`
+      document.getElementById("root").append(paras)
+
+      const timeout = (delay = 1000) =>
+        new Promise(resolve => setTimeout(resolve, delay))
+
+      const fetchData = async value => {
+        await timeout()
+        return value
+      }
+
+      const App = async ({ value }) => {
+        const data = await fetchData(value)
+        return jsx`<h1>${data}</h1>`
+      }
+
+      const Index = jsx`
+        <${jsx.Suspense} fallback=${jsx`<p>loading...</p>`}>
+          <${App} value=${"qwq"}/>
+        </${jsx.Suspense}>`
+
+      document.getElementById("root").append(Index)
+
+      document.getElementById("root").append(jsx`<footer>---<footer>`)
+    </script>
+  </body>
+</html>
