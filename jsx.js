@@ -2,13 +2,14 @@
  * @Author: saber2pr
  * @Date: 2019-11-24 16:13:57
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-11-28 16:17:06
+ * @Last Modified time: 2019-11-30 18:42:32
  */
 const jsx = (() => {
   const flat1 = arr => [].concat(...arr)
   const flat2 = arr => flat1(flat1(arr))
   const createDOMElement = type => document.createElement(type)
   const createDOMFragment = () => document.createDocumentFragment()
+  const setNextTick = setTimeout
   const assign = Object.assign
   const has = (array, item) => array.includes(item)
   const toAttr = obj =>
@@ -37,7 +38,10 @@ const jsx = (() => {
   const createElement = (type, props, ...children) => {
     children = flatList(children)
     return type.call
-      ? type({ ...props, children: children[1] ? children : children[0] })
+      ? createHook(type)({
+          ...props,
+          children: children[1] ? children : children[0]
+        })
       : render({ type, props, children })
   }
 
@@ -126,6 +130,27 @@ const jsx = (() => {
   renderer.render = (component, container) => {
     container.innerHTML = ""
     container.append(component)
+  }
+
+  const createHook = fc => vnode => {
+    fc.useState = init => {
+      if (!("state" in fc)) fc.state = init
+      const setState = state => {
+        if (state !== fc.state) {
+          fc.state = state
+          const instance = fc(vnode)
+          const node = fc.node
+          const parent = node.parentNode
+          parent.replaceChild(instance, node)
+          fc.node = instance
+        }
+      }
+      return [
+        fc.state,
+        fc.node ? setState : state => setNextTick(setState, 0, state)
+      ]
+    }
+    return (fc.node = fc(vnode))
   }
 
   return renderer

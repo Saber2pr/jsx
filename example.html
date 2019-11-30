@@ -10,8 +10,19 @@
   <body>
     <div id="root"></div>
     <script>
+      const Count = () => {
+        const [state, setState] = Count.useState(0)
+        setState(1)
+        return jsx`
+          <div>
+            ${state}
+            <button onClick=${() => setState(state + 1)}>add</button>
+          </div>`
+      }
+
+      jsx.render(jsx`<${Count}/>`, document.getElementById("root"))
+
       const List = ({ list, children }) => {
-        // console.log(children)
         return list.map(n => jsx`<li style=${{ color: "red" }}>${n}</li>`)
       }
 
@@ -26,11 +37,11 @@
           </li>
         </ul>`
 
-      jsx.render(Ul, document.getElementById("root"))
+      document.getElementById("root").append(Ul)
 
       const ref = {}
       const button = jsx`<button className="test" ref=${ref} onClick=${() =>
-        console.log(ref)}>add</button>`
+        console.log(ref)}>console ref</button>`
 
       document.getElementById("root").append(button)
 
