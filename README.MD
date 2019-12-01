@@ -2,6 +2,8 @@
 
 write jsx in your html. only 1kb dep.
 
+> new: jsx2 is `vnode style`.
+
 ```js
 // it returns a dom object.
 const app = jsx`<div>Hello World!</div>` // <div>Hello World!</div>
@@ -127,22 +129,6 @@ jsx.createElement(`div`, { id: "hello" }, "Hello World!") // <div id="hello">Hel
 
 const fontSize = 2
 jsx.createElement(`h${fontSize}`, {}, "Hello World!") // <h2>Hello World!</h2>
-```
-
-#### 5. useState
-
-```js
-const Count = () => {
-  const [state, setState] = Count.useState(0)
-  setState(1)
-  return jsx`
-    <div>
-      ${state}
-      <button onClick=${() => setState(state + 1)}>add</button>
-    </div>`
-}
-
-jsx.render(jsx`<${Count}/>`, document.getElementById("root"))
 ```
 
 ### Reference

@@ -4,24 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <script src="./jsx.min.js"></script>
+    <script src="./jsx.js"></script>
     <title>jsx</title>
   </head>
   <body>
     <div id="root"></div>
     <script>
-      const Count = () => {
-        const [state, setState] = Count.useState(0)
-        setState(1)
-        return jsx`
-          <div>
-            ${state}
-            <button onClick=${() => setState(state + 1)}>add</button>
-          </div>`
-      }
-
-      jsx.render(jsx`<${Count}/>`, document.getElementById("root"))
-
       const List = ({ list, children }) => {
         return list.map(n => jsx`<li style=${{ color: "red" }}>${n}</li>`)
       }
