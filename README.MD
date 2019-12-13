@@ -2,8 +2,6 @@
 
 write jsx in your html. only 1kb dep.
 
-> new: jsx2 is `vnode style`.
-
 ```js
 // it returns a dom object.
 const app = jsx`<div>Hello World!</div>` // <div>Hello World!</div>
