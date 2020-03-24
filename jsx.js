@@ -2,9 +2,9 @@
  * @Author: saber2pr
  * @Date: 2019-11-24 16:13:57
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-12-01 16:11:23
+ * @Last Modified time: 2020-03-24 15:11:45
  */
-const jsx = (() => {
+var jsx = (() => {
   const flat1 = arr => [].concat(...arr)
   const flat2 = arr => flat1(flat1(arr))
   const createDOMElement = type => document.createElement(type)
